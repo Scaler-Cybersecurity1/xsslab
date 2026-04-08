@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lab 3 - DOM XSS</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div>
+        <div class="brand-name">Scaler Security Labs</div>
+        <div class="brand-sub">DOM XSS Lab</div>
+      </div>
+      <a class="badge" href="./index.html">Back to Home</a>
+    </div>
+  </header>
+
+  <main>
+    <h2>Lab 3: DOM XSS</h2>
+    <p>This lab reads <code>window.location.hash</code> and injects it via <code>innerHTML</code>.</p>
+    <div class="card">
+      <p id="output">Waiting for hash value...</p>
+    </div>
+    <p>Try URL fragment: <code>#hello</code></p>
+    <div id="success"></div>
+  </main>
+
+  <script>
+    const value = decodeURIComponent(window.location.hash.slice(1));
+    document.getElementById("output").innerHTML = "Preview: " + value;
+
+    if (value.includes("xss-dom-win")) {
+      document.getElementById("success").innerHTML =
+        '<div class="success">success_code: <code>XSS-DOM-9BC0</code></div>';
+    }
+  </script>
+</body>
+</html>

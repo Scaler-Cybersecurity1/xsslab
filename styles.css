@@ -1,0 +1,76 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: #f4f7fc;
+  color: #1f2937;
+}
+header {
+  background: linear-gradient(135deg, #0f172a, #1d4ed8);
+  color: #fff;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.topbar {
+  max-width: 980px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.brand-name { font-size: 18px; font-weight: 700; letter-spacing: 0.2px; }
+.brand-sub { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+.badge {
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 6px 10px;
+  border-radius: 99px;
+}
+main {
+  max-width: 980px;
+  margin: 24px auto;
+  background: #fff;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+h2 { margin-top: 0; }
+a { color: #1d4ed8; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { background: #eef2ff; padding: 2px 6px; border-radius: 4px; }
+.grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.lab-card, .card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 14px;
+  background: #fcfdff;
+}
+.meta { color: #6b7280; font-size: 14px; }
+.success {
+  background: #ecfdf3;
+  border: 1px solid #86efac;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  margin-bottom: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+button {
+  background: #1d4ed8;
+  color: #fff;
+  border: 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+button:hover { background: #1e40af; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lab 2 - Stored XSS</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div>
+        <div class="brand-name">Scaler Security Labs</div>
+        <div class="brand-sub">Stored XSS Lab</div>
+      </div>
+      <a class="badge" href="./index.html">Back to Home</a>
+    </div>
+  </header>
+
+  <main>
+    <h2>Lab 2: Stored XSS</h2>
+    <p>Comments are stored in browser storage and rendered unsafely.</p>
+
+    <label>Add comment</label>
+    <textarea id="commentInput" rows="4" placeholder="Write your comment"></textarea>
+    <div class="row">
+      <button id="postBtn" type="button">Post</button>
+      <button id="resetBtn" type="button">Reset comments</button>
+    </div>
+
+    <div class="card">
+      <h3>Public comments</h3>
+      <ul id="commentList"></ul>
+    </div>
+    <div id="success"></div>
+  </main>
+
+  <script>
+    const KEY = "xsslab_comments";
+
+    function loadComments() {
+      try {
+        return JSON.parse(localStorage.getItem(KEY) || "[]");
+      } catch {
+        return [];
+      }
+    }
+
+    function saveComments(comments) {
+      localStorage.setItem(KEY, JSON.stringify(comments));
+    }
+
+    function renderComments() {
+      const comments = loadComments();
+      const list = document.getElementById("commentList");
+      list.innerHTML = comments.length
+        ? comments.map((c) => "<li>" + c + "</li>").join("")
+        : "<li>No comments yet.</li>";
+
+      const solved = comments.some((c) => c.includes("xss-stored-win"));
+      document.getElementById("success").innerHTML = solved
+        ? '<div class="success">success_code: <code>XSS-STORED-3F22</code></div>'
+        : "";
+    }
+
+    document.getElementById("postBtn").addEventListener("click", () => {
+      const input = document.getElementById("commentInput");
+      const value = input.value || "";
+      const comments = loadComments();
+      comments.push(value);
+      saveComments(comments);
+      input.value = "";
+      renderComments();
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      saveComments([]);
+      renderComments();
+    });
+
+    renderComments();
+  </script>
+</body>
+</html>

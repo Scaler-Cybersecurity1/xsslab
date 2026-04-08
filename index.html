@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XSS Training</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div>
+        <div class="brand-name">Scaler Security Labs</div>
+        <div class="brand-sub">Application Security Training Portal</div>
+      </div>
+      <div class="badge">XSS Practice Environment</div>
+    </div>
+  </header>
+
+  <main>
+    <h2>Welcome to Scaler Security Labs</h2>
+    <p class="meta">Hands-on XSS simulations for student training.</p>
+    <div class="grid">
+      <div class="lab-card">
+        <h3>Lab 1: Reflected XSS</h3>
+        <p class="meta">A search endpoint reflects unsanitized query input.</p>
+        <a href="./lab-reflected.html">Launch lab</a>
+      </div>
+      <div class="lab-card">
+        <h3>Lab 2: Stored XSS</h3>
+        <p class="meta">User comments are persisted and rendered without escaping.</p>
+        <a href="./lab-stored.html">Launch lab</a>
+      </div>
+      <div class="lab-card">
+        <h3>Lab 3: DOM XSS</h3>
+        <p class="meta">URL hash is inserted into the DOM using <code>innerHTML</code>.</p>
+        <a href="./lab-dom.html">Launch lab</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
