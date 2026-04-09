@@ -10,33 +10,81 @@
   <header>
     <div class="topbar">
       <div>
-        <div class="brand-name">Scaler Security Labs</div>
-        <div class="brand-sub">Stored XSS Lab</div>
+        <div class="brand-name">The Daily Write</div>
+        <div class="brand-sub">Readers discussion threads</div>
       </div>
       <a class="badge" href="./index.html">Back to Home</a>
     </div>
   </header>
 
   <main>
-    <h2>Lab 2: Stored XSS</h2>
-    <p>Comments are stored in browser storage and rendered unsafely.</p>
+    <section class="hero">
+      <h2>Post Comments</h2>
+      <p class="meta">Join the conversation below this article. New comments are visible to every reader.</p>
+    </section>
 
-    <label>Add comment</label>
-    <textarea id="commentInput" rows="4" placeholder="Write your comment"></textarea>
-    <div class="row">
-      <button id="postBtn" type="button">Post</button>
-      <button id="resetBtn" type="button">Reset comments</button>
-    </div>
+    <div class="layout-2col">
+      <section>
+        <div class="card">
+          <label>Write a comment</label>
+          <textarea id="commentInput" rows="4" placeholder="Share your perspective on this article"></textarea>
+          <div class="row">
+            <button id="postBtn" type="button">Post comment</button>
+            <button id="resetBtn" type="button">Reset thread</button>
+          </div>
+        </div>
 
-    <div class="card">
-      <h3>Public comments</h3>
-      <ul id="commentList"></ul>
+        <div class="card">
+          <h3>Reader comments</h3>
+          <ul id="commentList"></ul>
+        </div>
+      </section>
+
+      <aside class="card">
+        <h4>Commenting Guidelines</h4>
+        <ul class="sidebar-list">
+          <li>Stay on topic with the article.</li>
+          <li>Use respectful language.</li>
+          <li>Avoid sharing personal contact details.</li>
+          <li>All comments are publicly visible.</li>
+        </ul>
+      </aside>
     </div>
     <div id="success"></div>
   </main>
 
   <script>
     const KEY = "xsslab_comments";
+    const STORED_HITS_KEY = "xsslab_stored_alert_hits";
+
+    function loadHits() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(STORED_HITS_KEY) || "[]");
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveHits(hits) {
+      localStorage.setItem(STORED_HITS_KEY, JSON.stringify(hits));
+    }
+
+    function logAlertHit(args) {
+      const hits = loadHits();
+      hits.push({
+        at: new Date().toISOString(),
+        message: args.map((v) => String(v)).join(" ")
+      });
+      saveHits(hits);
+    }
+
+    // Runtime instrumentation: this marks success only when JS actually executes.
+    const nativeAlert = window.alert.bind(window);
+    window.alert = (...args) => {
+      logAlertHit(args);
+      nativeAlert(...args);
+    };
 
     function loadComments() {
       try {
@@ -57,9 +105,13 @@
         ? comments.map((c) => "<li>" + c + "</li>").join("")
         : "<li>No comments yet.</li>";
 
-      const solved = comments.some((c) => c.includes("xss-stored-win"));
-      document.getElementById("success").innerHTML = solved
-        ? '<div class="success">success_code: <code>XSS-STORED-3F22</code></div>'
+      const hits = loadHits();
+      const latest = hits.length ? hits[hits.length - 1] : null;
+      document.getElementById("success").innerHTML = hits.length
+        ? '<div class="success">success_code: <code>XSS-STORED-3F22</code><br><span>Executed payloads: '
+          + hits.length
+          + (latest ? " (last alert: <code>" + latest.message.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</code>)" : "")
+          + "</span></div>"
         : "";
     }
 
@@ -75,6 +127,7 @@
 
     document.getElementById("resetBtn").addEventListener("click", () => {
       saveComments([]);
+      saveHits([]);
       renderComments();
     });
 

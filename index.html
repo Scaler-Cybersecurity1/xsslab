@@ -10,31 +10,66 @@
   <header>
     <div class="topbar">
       <div>
-        <div class="brand-name">Scaler Security Labs</div>
-        <div class="brand-sub">Application Security Training Portal</div>
+        <div class="brand-name">The Daily Write</div>
+        <div class="brand-sub">Stories, opinions, and product notes</div>
       </div>
-      <div class="badge">XSS Practice Environment</div>
+      <div class="badge">Blog Home</div>
     </div>
   </header>
 
   <main>
-    <h2>Welcome to Scaler Security Labs</h2>
-    <p class="meta">Hands-on XSS simulations for student training.</p>
-    <div class="grid">
-      <div class="lab-card">
-        <h3>Lab 1: Reflected XSS</h3>
-        <p class="meta">A search endpoint reflects unsanitized query input.</p>
-        <a href="./lab-reflected.html">Launch lab</a>
+    <section class="hero">
+      <h2>Featured Stories</h2>
+      <p class="meta">A realistic blogging front-end used for security training scenarios.</p>
+      <div class="stats">
+        <div class="stat-card">
+          <div class="value">12K</div>
+          <div class="meta">Monthly readers</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">640</div>
+          <div class="meta">Published articles</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">Tech</div>
+          <div class="meta">Editorial focus</div>
+        </div>
       </div>
-      <div class="lab-card">
-        <h3>Lab 2: Stored XSS</h3>
-        <p class="meta">User comments are persisted and rendered without escaping.</p>
-        <a href="./lab-stored.html">Launch lab</a>
+    </section>
+
+    <div class="post-list">
+      <div class="post-item">
+        <div class="post-meta">Editorial Tooling</div>
+        <h3>Article Search Experience</h3>
+        <p class="meta">Explore how the search page displays user-entered terms in live results.</p>
+        <div class="tags">
+          <span class="tag">Search</span>
+          <span class="tag">Frontend</span>
+          <span class="tag">Lab 1</span>
+        </div>
+        <a class="cta-link" href="./lab-reflected.html">Read article</a>
       </div>
-      <div class="lab-card">
-        <h3>Lab 3: DOM XSS</h3>
-        <p class="meta">URL hash is inserted into the DOM using <code>innerHTML</code>.</p>
-        <a href="./lab-dom.html">Launch lab</a>
+      <div class="post-item">
+        <div class="post-meta">Community</div>
+        <h3>Public Comment Threads</h3>
+        <p class="meta">See how discussions are rendered in a social comment section.</p>
+        <div class="tags">
+          <span class="tag">Comments</span>
+          <span class="tag">Engagement</span>
+          <span class="tag">Lab 2</span>
+        </div>
+        <a class="cta-link" href="./lab-stored.html">Read article</a>
+      </div>
+      <div class="post-item">
+        <div class="post-meta">Author Dashboard</div>
+        <h3>Live Bio Preview Widget</h3>
+        <p class="meta">Preview author bio content generated from URL-based state.</p>
+        <div class="tags">
+          <span class="tag">Profile</span>
+          <span class="tag">UX</span>
+          <span class="tag">Lab 3</span>
+        </div>
+        <a class="cta-link" href="./lab-dom.html">Read article</a>
       </div>
     </div>
   </main>

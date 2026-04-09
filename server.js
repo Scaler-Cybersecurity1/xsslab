@@ -1,10 +1,12 @@
 const express = require("express");
+const path = require("path");
 
 const app = express();
 const port = 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(express.static(path.join(__dirname)));
 
 // Intentionally insecure in-memory data for training use only.
 const comments = [];
@@ -24,40 +26,37 @@ function pageTemplate(title, body) {
   <title>${title}</title>
   <style>
     * { box-sizing: border-box; }
-    body { font-family: Inter, Arial, sans-serif; margin: 0; background: #f4f7fc; color: #1f2937; }
-    header { background: linear-gradient(135deg, #0f172a, #1d4ed8); color: #fff; padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.2); }
+    body { font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif; margin: 0; background: #f8f6f2; color: #1f2937; line-height: 1.5; }
+    header { background: #fffdf9; color: #1f2937; padding: 16px 24px; border-bottom: 1px solid #e7dfd1; position: sticky; top: 0; z-index: 10; }
     .topbar { max-width: 980px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .brand-name { font-size: 18px; font-weight: 700; letter-spacing: 0.2px; }
-    .brand-sub { font-size: 12px; opacity: 0.85; margin-top: 2px; }
-    .badge { font-size: 12px; background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.35); padding: 6px 10px; border-radius: 99px; }
-    main { max-width: 980px; margin: 24px auto; background: #fff; padding: 22px; border-radius: 12px; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08); }
-    h2 { margin-top: 0; }
-    a { color: #1d4ed8; text-decoration: none; }
+    .brand-name { font-size: 26px; font-family: Georgia, "Times New Roman", serif; font-weight: 700; letter-spacing: 0.2px; }
+    .brand-sub { font-size: 12px; color: #6b7280; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .badge { font-size: 12px; color: #6b4f2a; background: #fff7ed; border: 1px solid #f5d5a5; padding: 6px 10px; border-radius: 99px; }
+    main { max-width: 980px; margin: 24px auto; background: #fffdf9; padding: 22px; border-radius: 12px; box-shadow: 0 8px 24px rgba(42, 32, 16, 0.08); border: 1px solid #ece3d6; }
+    h2, h3, h4 { margin-top: 0; font-family: Georgia, "Times New Roman", serif; }
+    a { color: #0f4c81; text-decoration: none; }
     a:hover { text-decoration: underline; }
-    code { background: #eef2ff; padding: 2px 6px; border-radius: 4px; }
-    .card { border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px; margin-bottom: 14px; background: #fff; }
+    code { background: #f3f4f6; border: 1px solid #e5e7eb; padding: 2px 6px; border-radius: 4px; }
+    .card { border: 1px solid #ece3d6; border-radius: 10px; padding: 14px; margin-bottom: 14px; background: #fffefb; }
     .grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-    .lab-card { border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px; background: #fcfdff; }
+    .lab-card { border: 1px solid #ece3d6; border-radius: 10px; padding: 14px; background: #fff; }
     .success { background: #ecfdf3; border: 1px solid #86efac; padding: 10px; border-radius: 8px; margin: 12px 0; }
     .warn { background: #fff7ed; border: 1px solid #fdba74; padding: 10px; border-radius: 8px; margin: 12px 0; }
-    input, textarea { width: 100%; padding: 10px; margin-top: 6px; margin-bottom: 10px; border: 1px solid #d1d5db; border-radius: 8px; }
-    button { background: #1d4ed8; color: #fff; border: 0; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
-    button:hover { background: #1e40af; }
-    ul { padding-left: 20px; }
+    input, textarea { width: 100%; padding: 10px; margin-top: 6px; margin-bottom: 10px; border: 1px solid #d6c8b4; border-radius: 8px; background: #fffdfa; }
+    button { background: #7c3f00; color: #fff; border: 0; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    button:hover { background: #5b2d00; }
+    ul { padding-left: 20px; color: #4b5563; }
     .meta { color: #6b7280; font-size: 14px; }
   </style>
 </head>
 <body>
   <header>
     <div class="topbar">
-      <div class="brand">
-        <div>
-          <div class="brand-name">Scaler Security Labs</div>
-          <div class="brand-sub">Application Security Training Portal</div>
-        </div>
+      <div>
+        <div class="brand-name">The Daily Write</div>
+        <div class="brand-sub">Stories, opinions, and product notes</div>
       </div>
-      <div class="badge">XSS Practice Environment</div>
+      <div class="badge">Blog Training Sandbox</div>
     </div>
   </header>
   <main>
@@ -69,23 +68,23 @@ function pageTemplate(title, body) {
 
 app.get("/", (req, res) => {
   const body = `
-  <h2>Welcome to Scaler Security Labs</h2>
-  <p class="meta">Hands-on XSS simulations for student training.</p>
+  <h2>Featured Stories</h2>
+  <p class="meta">A realistic blogging front-end used for security training scenarios.</p>
   <div class="grid">
     <div class="lab-card">
-      <h3>Lab 1: Reflected XSS</h3>
-      <p class="meta">A search endpoint reflects unsanitized query input.</p>
-      <a href="/lab/reflected">Launch lab</a>
+      <h3>Article Search Experience</h3>
+      <p class="meta">Search terms are reflected directly into rendered page output.</p>
+      <a href="/lab/reflected">Read article</a>
     </div>
     <div class="lab-card">
-      <h3>Lab 2: Stored XSS</h3>
-      <p class="meta">User comments are persisted and rendered without escaping.</p>
-      <a href="/lab/stored">Launch lab</a>
+      <h3>Public Comment Threads</h3>
+      <p class="meta">Reader comments are stored and shown to all visitors.</p>
+      <a href="/lab/stored">Read article</a>
     </div>
     <div class="lab-card">
-      <h3>Lab 3: DOM XSS</h3>
-      <p class="meta">URL hash is inserted into the DOM using <code>innerHTML</code>.</p>
-      <a href="/lab/dom">Launch lab</a>
+      <h3>Live Author Bio Preview</h3>
+      <p class="meta">Profile preview content is injected from URL hash using <code>innerHTML</code>.</p>
+      <a href="/lab/dom">Read article</a>
     </div>
   </div>
   `;
@@ -113,7 +112,6 @@ app.get("/lab/reflected", (req, res) => {
 });
 
 app.get("/lab/stored", (req, res) => {
-  const solved = comments.some((comment) => comment.includes("xss-stored-win"));
   const listHtml = comments.map((comment) => `<li>${comment}</li>`).join("");
   const body = `
   <h2>Lab 2: Stored XSS</h2>
@@ -126,11 +124,48 @@ app.get("/lab/stored", (req, res) => {
   <form method="post" action="/lab/stored/reset">
     <button type="submit">Reset comments</button>
   </form>
+  <script>
+    const STORED_HITS_KEY = "xsslab_stored_alert_hits";
+    function loadHits() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(STORED_HITS_KEY) || "[]");
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+    function saveHits(hits) {
+      localStorage.setItem(STORED_HITS_KEY, JSON.stringify(hits));
+    }
+    function logAlertHit(args) {
+      const hits = loadHits();
+      hits.push({
+        at: new Date().toISOString(),
+        message: args.map((v) => String(v)).join(" ")
+      });
+      saveHits(hits);
+    }
+    const nativeAlert = window.alert.bind(window);
+    window.alert = (...args) => {
+      logAlertHit(args);
+      nativeAlert(...args);
+    };
+  </script>
   <div class="card">
     <h3>Public comments</h3>
     <ul>${listHtml || "<li>No comments yet.</li>"}</ul>
   </div>
-  ${solved ? `<div class="success">success_code: <code>${SUCCESS_CODES.stored}</code></div>` : ""}
+  <div id="storedStatus"></div>
+  <script>
+    const hits = JSON.parse(localStorage.getItem("xsslab_stored_alert_hits") || "[]");
+    const latest = hits.length ? hits[hits.length - 1] : null;
+    document.getElementById("storedStatus").innerHTML = hits.length
+      ? '<div class="success">success_code: <code>${SUCCESS_CODES.stored}</code><br><span>Executed payloads: '
+        + hits.length
+        + (latest ? " (last alert: <code>" + String(latest.message).replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</code>)" : "")
+        + "</span></div>"
+      : "";
+  </script>
   <p>Goal: store a payload that executes when this page loads.</p>`;
   res.send(pageTemplate("Lab 2 - Stored XSS", body));
 });
@@ -143,7 +178,10 @@ app.post("/lab/stored/comment", (req, res) => {
 
 app.post("/lab/stored/reset", (_req, res) => {
   comments.length = 0;
-  res.redirect("/lab/stored");
+  res.send(`<!doctype html><html><body><script>
+    localStorage.removeItem("xsslab_stored_alert_hits");
+    window.location.replace("/lab/stored");
+  </script></body></html>`);
 });
 
 app.get("/lab/dom", (_req, res) => {

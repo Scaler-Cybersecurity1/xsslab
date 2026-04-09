@@ -10,26 +10,44 @@
   <header>
     <div class="topbar">
       <div>
-        <div class="brand-name">Scaler Security Labs</div>
-        <div class="brand-sub">Reflected XSS Lab</div>
+        <div class="brand-name">The Daily Write</div>
+        <div class="brand-sub">Search across published posts</div>
       </div>
       <a class="badge" href="./index.html">Back to Home</a>
     </div>
   </header>
 
   <main>
-    <h2>Lab 1: Reflected XSS</h2>
-    <p>Search reflects <code>?q=</code> directly into the page.</p>
-    <form method="get" action="./lab-reflected.html">
-      <label>Search query</label>
-      <input name="q" />
-      <button type="submit">Search</button>
-    </form>
+    <section class="hero">
+      <h2>Blog Search</h2>
+      <p class="meta">Find stories by title, topic, or keyword in our publishing archive.</p>
+    </section>
 
-    <div class="card">
-      <h3>Search Results</h3>
-      <p id="results">No results yet.</p>
+    <div class="layout-2col">
+      <section>
+        <form method="get" action="./lab-reflected.html" class="card">
+          <label>Search posts</label>
+          <input name="q" placeholder="Try: remote work tips" />
+          <button type="submit">Search</button>
+        </form>
+
+        <div class="card">
+          <h3>Results</h3>
+          <p id="results">No results yet.</p>
+        </div>
+      </section>
+
+      <aside class="card">
+        <h4>Trending Categories</h4>
+        <ul class="sidebar-list">
+          <li>Productivity</li>
+          <li>Web development</li>
+          <li>Career growth</li>
+          <li>Creator economy</li>
+        </ul>
+      </aside>
     </div>
+
     <div id="success"></div>
   </main>
 
